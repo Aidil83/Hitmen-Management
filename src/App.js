@@ -1,6 +1,7 @@
 import "./App.css";
 import styled from "styled-components/macro";
 import { useState } from "react";
+import axios from "axios";
 
 function App() {
   const [name, setName] = useState("");
@@ -9,9 +10,20 @@ function App() {
   const [position, setPosition] = useState("");
   const [wage, setWage] = useState(0);
 
-  const handleClick = (e) => {
+  const addEmployee = () => {
     console.log(name, age, country, position, wage);
-    e.preventDefault();
+    axios
+      .post("http://localhost:3001/create", {
+        // Passing values to the back-end.
+        name: name,
+        age: age,
+        country: country,
+        position: position,
+        wage: wage,
+      })
+      .then(() => {
+        console.log("success");
+      }); // This is the endpoint that we want to make request.
   };
 
   return (
@@ -26,7 +38,7 @@ function App() {
       <input type="text" onChange={(e) => setPosition(e.target.value)} />
       <label>Wage (year)</label>
       <input type="number" onChange={(e) => setWage(e.target.value)} />
-      <button onClick={handleClick}>Add Employee</button>
+      <button onClick={addEmployee}>Add Employee</button>
     </Container>
   );
 }
