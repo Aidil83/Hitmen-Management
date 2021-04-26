@@ -1,7 +1,7 @@
 import "./App.css";
 import styled from "styled-components/macro";
 import { useState } from "react";
-import axios from "axios";
+import Axios from "axios";
 
 function App() {
   const [name, setName] = useState("");
@@ -12,18 +12,16 @@ function App() {
 
   const addEmployee = () => {
     console.log(name, age, country, position, wage);
-    axios
-      .post("http://localhost:3001/create", {
-        // Passing values to the back-end.
-        name: name,
-        age: age,
-        country: country,
-        position: position,
-        wage: wage,
-      })
-      .then(() => {
-        console.log("success");
-      }); // This is the endpoint that we want to make request.
+    Axios.post("http://localhost:3001/create", {
+      // Passing values to the back-end.
+      name: name,
+      age: age,
+      country: country,
+      position: position,
+      wage: wage,
+    }).then(() => {
+      console.log("success");
+    }); // This is the endpoint that we want to make request.
   };
 
   return (
