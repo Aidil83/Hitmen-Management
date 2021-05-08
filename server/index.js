@@ -11,23 +11,25 @@ const db = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "password",
-  database: "hitmen_management",
+  database: "hitmen_db",
 });
 
 
 // Create an API endpoint (Adding stuff to the database).
 // req is to send something from the front-end and res is to send something to the front-end.
 
+// NOTE: Create functionality
 app.post("/create", (req, res) => {
   const name = req.body.name;
-  const age = req.body.age;
-  const country = req.body.country;
-  const position = req.body.position;
-  const wage = req.body.wage;
+  // const age = req.body.age;
+  const location = req.body.location;
+  // const position = req.body.position;
+  // const wage = req.body.wage;
 
   db.query(
-    "INSERT INTO employees (name, age, country, position, wage) VALUES (?,?,?,?,?)",
-    [name, age, country, position, wage],
+    // "INSERT INTO customer (name, age, country, position, wage) VALUES (?,?,?,?,?)",
+    "INSERT INTO customer (name, location) VALUES (?,?)",
+    [name, location],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -36,6 +38,30 @@ app.post("/create", (req, res) => {
       }
     }
   );
+});
+
+// NOTE: Read functionality
+app.get('/hitman', (req, res) => {
+// select everything from the hitman table.
+  db.query("SELECT * FROM hitman", (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send(result);
+    }
+  }) 
+})
+
+// NOTE: Delete Functionality
+app.delete('/delete/:id', (req, res) => {
+  const id = req.params.id;
+  db.query("DELETE FROM hitman WHERE h_id = ?", id, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send(result);
+    }
+  })
 });
 
 app.listen(3001, () => {

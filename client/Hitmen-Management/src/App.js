@@ -31,7 +31,11 @@ function App() {
 
   // Delete endpoint
   const deleteHitman = (id) => {
-    Axios.delete(`http://localhost:3001/delete/${id}`)
+    Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
+      setHitmanList(hitmanList.filter(val => {
+        return val.h_id !== id;
+      }))
+    })
   }
 
 
